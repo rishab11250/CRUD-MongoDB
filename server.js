@@ -62,7 +62,7 @@ app.get('/users', async (req,res)=>{
 
 // get by id
 app.get('/users/:id', async (req,res)=>{
-    let userId = Number(req.params.id);
+    let userId = (req.params.id);
     try{
         const user = await User.findById(userId);
         res.status(200).send(user);
@@ -77,6 +77,23 @@ app.put('/users/:id', async (req,res)=>{
     let userId = (req.params.id);
     try{
         const user = await User.findByIdAndUpdate(userId, req.body);
+        res.status(200).send({
+            message: 'User updated!',
+            user: user
+        });
+    }
+    catch(err){
+        res.status(500).send(err);
+    }
+})
+
+// patch route
+app.patch('/users/name/:id', async (req,res)=>{
+    const userId = (req.params.id);
+    try{
+        const user = await User.findByIdAndUpdate(userId, {
+            name: req.body.name
+        });
         res.status(200).send({
             message: 'User updated!',
             user: user
