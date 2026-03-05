@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -7,13 +8,16 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/task')
+mongoose.connect(process.env.MongoDB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.log('Could not connected to MongoDB', err));
 
 const userSchema = new mongoose.Schema({
     name: String,
     password: String,
+    
+},{
+    versionKey: false
 });
 
 const User = mongoose.model('User', userSchema);
